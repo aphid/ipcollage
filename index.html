@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style type="text/css">
+body { background-color: #000; }
+canvas {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   width: 512px;
+   height: 512px;
+   margin-top: -256px; /* Half the height */
+   margin-left: -256px; /* Half the width */
+}
+
+</style>
+<title></title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>       
+<script type="text/javascript">           
+var mostrecent = [];
+var lasttimestamp = 1;
+
+$(document).ready(function() {
+  fetchIPs();
+ });
+
+window.setInterval( "fetchIPs()", 15000 );
+
+function fetchIPs() {
+    var lastip;
+    $.getJSON("ipcollage.php?time=" + lasttimestamp, function(data) {
+          if (lasttimestamp == 1) {
+            document.title = data.visits[data.visits.length - 1].ip;
+          }
+          $.each(data.visits, function(i,visit){
+            if (visit.timestamp > lasttimestamp) { 
+                drawIP(visit.ip);
+                lasttimestamp = visit.timestamp;
+              }
+          });
+
+
+       });
+
+}
+
+function drawIP(ip) {
+    var splitip = ip.split(".");
+    var r = splitip[0];
+    var x = splitip[0];
+    var g = splitip[1];
+    var y = splitip[1];            
+    var b = splitip[2];
+    var w = splitip[2];
+    var a = splitip[3]/255;
+    var h = splitip[3];
+    var canvas = document.getElementById("canvas");
+    if (canvas.getContext) {
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "rgba(" + r + "," + g + "," + b + "," + a +")";
+        ctx.fillRect (x, y, w, h);
+        }
+
+}
+</script>
+
+
+ 
+</head>
+
+<body>
+<div style="text-align: center;">
+<canvas id="canvas" class="canvas" width="512" height="512"></canvas>
+</div>
+</body>
+
+</html>
