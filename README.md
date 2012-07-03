@@ -7,4 +7,4 @@ project started may 2002, originally made static images using php's gdlib image 
 
 recoded ~2009 for UCSC's 'Art of Collaboration' show.  tweaked since.
 
-see also: http://rhizome.org/artbase/artwork/9747/
+see also: http://rhizome.org/editorial/2006/may/19/ip-collage/
